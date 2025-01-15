@@ -1,10 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import saveDataToFirebase from "../firebase";
-import GetUserFS from "./GetUserFS";
 
-const AttendesFunstion = async () => {
-  const user = await GetUserFS();
+const AttendesFunstion = ({ user }) => {
 
   const [location, setLocation] = useState(null);
   const [message, setMessage] = useState("");
@@ -75,7 +73,7 @@ const AttendesFunstion = async () => {
       <h1 className="text-3xl font-bold mb-4">Xodimlar Tizimi</h1>
       <h1>40.930202</h1>
       <h1>71.8937198</h1>
-      {user ? <>{userfamily_name}</> : <>user topilmadi</>}
+      {user ? <>{user.family_name + " " + user.given_name}</> : <>user topilmadi</>}
       <div className="mb-4">
         <button
           onClick={() => {
