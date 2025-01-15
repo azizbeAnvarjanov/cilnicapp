@@ -8,12 +8,6 @@ const AttendesFunstion = ({ user }) => {
   const [status, setStatus] = useState("");
   const [isArrival, setIsArrival] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [buttonsEnabled, setButtonsEnabled] = useState(false);
-
-  const predefinedLocation = {
-    latitude: 40.930202,
-    longitude: 71.8937198,
-  };
 
   // Geolocationni aniqlash funksiyasi
   const getLocation = () => {
@@ -36,37 +30,21 @@ const AttendesFunstion = ({ user }) => {
   };
 
   useEffect(() => {
-    if (location) {
+    if (location && isArrival !== null) {
+      const predefinedLocation = {
+        latitude: 40.930202,
+        longitude: 71.8937198,
+      };
       const distance = calculateDistance(
         location.latitude,
         location.longitude,
         predefinedLocation.latitude,
         predefinedLocation.longitude
       );
-
-      if (distance <= 0.01) {
-        // 10 meters tolerance
-        setButtonsEnabled(true);
-        setMessage("");
-      } else {
-        setButtonsEnabled(false);
-        setMessage("Siz ish joyidan uzoqda turibsiz.");
-      }
-    }
-  }, [location]);
-
-  useEffect(() => {
-    if (location && isArrival !== null && buttonsEnabled) {
-      const distance = calculateDistance(
-        location.latitude,
-        location.longitude,
-        predefinedLocation.latitude,
-        predefinedLocation.longitude
-      );
-
-      if (distance <= 0.01) {
+  
+      if (distance <= 0.02) { // 20 meters tolerance
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
-        saveDataToFirebase(isArrival, user, new Date().toISOString());
+        saveDataToFirebase(isArrival, user);
       } else {
         setMessage("Siz ish joyidan uzoqda turibsiz.");
         setStatus("");
@@ -99,12 +77,7 @@ const AttendesFunstion = ({ user }) => {
             setIsArrival(true);
             getLocation();
           }}
-          className={`${
-            buttonsEnabled ? "bg-gray-500" : "bg-green-500"
-          } text-white p-4 rounded-lg m-2 ${
-            buttonsEnabled ? "cursor-not-allowed" : "cursor-pointer"
-          }`}
-          disabled={!buttonsEnabled}
+          className="bg-green-500 text-white p-4 rounded-lg m-2"
         >
           Men Keldim
         </button>
@@ -114,7 +87,6 @@ const AttendesFunstion = ({ user }) => {
             getLocation();
           }}
           className="bg-red-500 text-white p-4 rounded-lg m-2"
-          disabled={!buttonsEnabled}
         >
           Men Ketdim
         </button>
