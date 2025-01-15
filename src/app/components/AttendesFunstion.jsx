@@ -41,8 +41,9 @@ const AttendesFunstion = ({ user }) => {
         predefinedLocation.latitude,
         predefinedLocation.longitude
       );
-  
-      if (distance <= 0.02) { // 20 meters tolerance
+
+      if (distance <= 0.02) {
+        // 20 meters tolerance
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
         saveDataToFirebase(isArrival, user);
       } else {
@@ -69,8 +70,10 @@ const AttendesFunstion = ({ user }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 w-[50vw]">
       <h1 className="text-3xl font-bold mb-4">Xodimlar Tizimi</h1>
+      <h1>40.930202</h1>
+      <h1>71.8937198</h1>
       <div className="mb-4">
         <button
           onClick={() => {
