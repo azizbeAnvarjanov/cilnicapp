@@ -32,8 +32,8 @@ const AttendesFunstion = ({ user }) => {
   useEffect(() => {
     if (location && isArrival !== null) {
       const predefinedLocation = {
-        latitude: 40.930202,
-        longitude: 71.8937198,
+        latitude: 40.9302053,
+        longitude: 71.8937276,
       };
       const distance = calculateDistance(
         location.latitude,
@@ -42,7 +42,7 @@ const AttendesFunstion = ({ user }) => {
         predefinedLocation.longitude
       );
 
-      if (distance <= 0.02) {
+      if (distance <= 0.05) {
         // 20 meters tolerance
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
         saveDataToFirebase(isArrival, user);
