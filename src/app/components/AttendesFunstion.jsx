@@ -3,71 +3,70 @@ import { useState, useEffect } from "react";
 import saveDataToFirebase from "../firebase";
 
 const AttendesFunstion = ({ user }) => {
-  const [location, setLocation] = useState(null);
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("");
-  const [isArrival, setIsArrival] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  // Geolocationni aniqlash funksiyasi
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      setLoading(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
-          setLoading(false);
-        },
-        (error) => {
-          setMessage("Geolokatsiya topilmadi.");
-          setLoading(false);
-        }
-      );
-    } else {
-      setMessage("Geolokatsiya brauzeringizda qo'llab-quvvatlanmaydi.");
-    }
-  };
-
-  useEffect(() => {
-    if (location && isArrival !== null) {
-      const predefinedLocation = {
-        latitude: 40.9302053,
-        longitude: 71.8937276,
-      };
-      const distance = calculateDistance(
-        location.latitude,
-        location.longitude,
-        predefinedLocation.latitude,
-        predefinedLocation.longitude
-      );
-
-      if (distance <= 0.05) {
-        // 20 meters tolerance
-        setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
-        saveDataToFirebase(isArrival, user);
+    const [location, setLocation] = useState(null);
+    const [message, setMessage] = useState("");
+    const [status, setStatus] = useState("");
+    const [isArrival, setIsArrival] = useState(null);
+    const [loading, setLoading] = useState(false);
+  
+    // Geolocationni aniqlash funksiyasi
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        setLoading(true);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setLocation({ latitude, longitude });
+            setLoading(false);
+          },
+          (error) => {
+            setMessage("Geolokatsiya topilmadi.");
+            setLoading(false);
+          }
+        );
       } else {
-        setMessage("Siz ish joyidan uzoqda turibsiz.");
-        setStatus("");
+        setMessage("Geolokatsiya brauzeringizda qo'llab-quvvatlanmaydi.");
       }
-    }
-  }, [location, isArrival]);
-
-  // Ikki nuqta orasidagi masofani hisoblash
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) *
-        Math.cos(lat2 * (Math.PI / 180)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    return distance;
-  };
+    };
+  
+    useEffect(() => {
+      if (location && isArrival !== null) {
+        const predefinedLocation = {
+          latitude: 40.930202,
+          longitude: 71.8937198,
+        };
+        const distance = calculateDistance(
+          location.latitude,
+          location.longitude,
+          predefinedLocation.latitude,
+          predefinedLocation.longitude
+        );
+  
+        if (distance <= 0.01) {
+          setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
+          saveDataToFirebase(isArrival, user);
+        } else {
+          setMessage("Siz ish joyidan uzoqda turibsiz.");
+          setStatus("");
+        }
+      }
+    }, [location, isArrival]);
+  
+    // Ikki nuqta orasidagi masofani hisoblash
+    const calculateDistance = (lat1, lon1, lat2, lon2) => {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) *
+          Math.cos(lat2 * (Math.PI / 180)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = R * c;
+      return distance;
+    };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 w-[50vw]">
