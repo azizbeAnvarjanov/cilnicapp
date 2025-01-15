@@ -44,7 +44,7 @@ const AttendesFunstion = ({ user }) => {
 
       if (distance <= 0.01) {
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
-        saveDataToFirebase(isArrival, user);
+        // saveDataToFirebase(isArrival, user);
       } else {
         setMessage("Siz ish joyidan uzoqda turibsiz.");
         setStatus("");
