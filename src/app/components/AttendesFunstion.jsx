@@ -43,29 +43,25 @@ const AttendesFunstion = ({ user }) => {
     }
   };
 
-  // Geolokatsiyalar orasidagi masofani hisoblash (metrda)
+  // Masofa hisoblash funksiyasi
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371e3; // Yer radiusi (metrda)
-    const toRad = (value) => (value * Math.PI) / 180;
-
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-
+    const R = 6371000; // Yerning radiusi, metrda
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) *
-        Math.cos(toRad(lat2)) *
+      Math.cos(lat1 * (Math.PI / 180)) *
+        Math.cos(lat2 * (Math.PI / 180)) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
-
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c; // Masofa metrda
+    const distance = R * c; // Masofa metrda
+    return distance;
   };
   const checkLocation = async (userLat, userLon) => {
     // Ish joyi koordinatalari (Firebase yoki boshqa bazadan o'qib olish mumkin)
-    const officeLat = 40.93016;
-    const officeLon = 71.89380;
+    const officeLat = 40.930202;
+    const officeLon = 71.8937198;
 
     // Masofani hisoblash
     const distance = calculateDistance(userLat, userLon, officeLat, officeLon);
