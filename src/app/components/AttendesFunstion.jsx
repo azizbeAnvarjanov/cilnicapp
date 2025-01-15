@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import saveDataToFirebase, { db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const AttendesFunstion = ({ user }) => {
   const [location, setLocation] = useState(null);
@@ -13,7 +13,7 @@ const AttendesFunstion = ({ user }) => {
   const addfirebase = async () => {
     try {
       await setDoc(doc(db, "attendess", user.id), {
-        sign_in_time: new Date().toISOString(),
+        sign_in_time: serverTimestamp(),
         user: user.family_name + " " + user.given_name,
         email: user.email,
       });
