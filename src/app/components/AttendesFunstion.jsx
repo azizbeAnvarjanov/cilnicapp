@@ -62,7 +62,7 @@ const AttendesFunstion = ({ user }) => {
         Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Masofa metrda
-    return distance * 1000;
+    return distance;
   };
   const checkLocation = async (userLat, userLon) => {
     // Ish joyi koordinatalari (Firebase yoki boshqa bazadan o'qib olish mumkin)
