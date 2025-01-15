@@ -43,42 +43,60 @@ const AttendesFunstion = ({ user }) => {
     }
   };
 
-  useEffect(() => {
-    if (location && isArrival !== null) {
-      const predefinedLocation = {
-        latitude: 43.8041334,
-        longitude: 59.4457988,
-      };
-      const distance = calculateDistance(
-        location.latitude,
-        location.longitude,
-        predefinedLocation.latitude,
-        predefinedLocation.longitude
-      );
-
-      if (distance <= 0.01) {
-        setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
-        addfirebase();
-      } else {
-        setMessage("Siz ish joyidan uzoqda turibsiz.");
-        setStatus("");
-      }
-    }
-  }, [location, isArrival]);
-
+  // Geolokatsiyalar orasidagi masofani hisoblash (metrda)
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371000; // Yerning radiusi, metrda
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const R = 6371e3; // Yer radiusi (metrda)
+    const toRad = (value) => (value * Math.PI) / 180;
+
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) *
-        Math.cos(lat2 * (Math.PI / 180)) *
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Masofa metrda
-    return distance;
+
+    return R * c; // Masofa metrda
+  };
+  const checkLocation = async (userLat, userLon) => {
+    // Ish joyi koordinatalari (Firebase yoki boshqa bazadan o'qib olish mumkin)
+    const officeLat = 43.8041334;
+    const officeLon = 59.4457988;
+
+    // Masofani hisoblash
+    const distance = calculateDistance(userLat, userLon, officeLat, officeLon);
+
+    // 10 metr radiusni tekshirish
+    if (distance <= 10) {
+      console.log("✅ Siz ish joyidasiz!");
+    } else {
+      console.log("❌ Siz ish joyida emassiz!");
+    }
+  };
+
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLat = position.coords.latitude;
+          const userLon = position.coords.longitude;
+          checkLocation(userLat, userLon);
+        },
+        (error) => {
+          console.error("Geolokatsiya xatosi:", error.message);
+          document.getElementById("statusMessage").innerText =
+            "❌ Geolokatsiya yoqilmagan!";
+        }
+      );
+    } else {
+      console.error("Geolokatsiya funksiyasi mavjud emas!");
+      document.getElementById("statusMessage").innerText =
+        "❌ Geolokatsiya funksiyasi mavjud emas!";
+    }
   };
 
   return (
@@ -109,6 +127,14 @@ const AttendesFunstion = ({ user }) => {
           className="bg-red-500 text-white p-4 rounded-lg m-2"
         >
           Men Ketdim
+        </button>
+        <button
+          onClick={() => {
+            getUserLocation();
+          }}
+          className="bg-blue-500 text-white p-4 rounded-lg m-2"
+        >
+          Joylashuvni aniqlash
         </button>
       </div>
       {loading && (
