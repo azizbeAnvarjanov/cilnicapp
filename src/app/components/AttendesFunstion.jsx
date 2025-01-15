@@ -1,14 +1,26 @@
 "use client";
 import { useState, useEffect } from "react";
-import saveDataToFirebase from "../firebase";
+import saveDataToFirebase, { db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const AttendesFunstion = ({ user }) => {
-
   const [location, setLocation] = useState(null);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const [isArrival, setIsArrival] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const addfirebase = async () => {
+    try {
+      await setDoc(doc(db, "attendess", user.id), {
+        sign_in_time: new Date().toISOString(),
+        user: user.family_name + " " + user.given_name,
+        email: user.email,
+      });
+    } catch (error) {
+      alert("xatolik - AttendesFunstion line 15");
+    }
+  };
 
   // Geolocationni aniqlash funksiyasi
   const getLocation = () => {
@@ -45,7 +57,7 @@ const AttendesFunstion = ({ user }) => {
 
       if (distance <= 0.01) {
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
-        alert("aaaaaaaa");
+        addfirebase();
       } else {
         setMessage("Siz ish joyidan uzoqda turibsiz.");
         setStatus("");
@@ -73,7 +85,11 @@ const AttendesFunstion = ({ user }) => {
       <h1 className="text-3xl font-bold mb-4">Xodimlar Tizimi</h1>
       <h1>40.930202</h1>
       <h1>71.8937198</h1>
-      {user ? <>{user.family_name + " " + user.given_name}</> : <>user topilmadi</>}
+      {user ? (
+        <>{user.family_name + " " + user.given_name}</>
+      ) : (
+        <>user topilmadi</>
+      )}
       <div className="mb-4">
         <button
           onClick={() => {
