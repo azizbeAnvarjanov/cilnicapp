@@ -32,8 +32,8 @@ const AttendesFunstion = ({ user }) => {
   useEffect(() => {
     if (location && isArrival !== null) {
       const predefinedLocation = {
-        latitude: 40.930202,
-        longitude: 71.8937198,
+        latitude: 43.8041334,
+        longitude: 59.4457988,
       };
       const distance = calculateDistance(
         location.latitude,
