@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import saveDataToFirebase from "../firebase";
+import saveDataToFirebase from '../firebase'
 
 const AttendesFunstion = ({ user }) => {
   const [location, setLocation] = useState(null);

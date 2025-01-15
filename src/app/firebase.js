@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -17,13 +17,11 @@ const storage = getStorage(app);
 
 export { db, storage };
 
-const saveDataToFirebase = (isArrival, user) => {
-  const userRef = firebase.database().ref(`users/${user.id}`);
-
-  userRef.set({
-    status: isArrival ? "kelgan" : "ketgan",
-    time: new Date().toISOString(),
-    location: location, // Geolokatsiyani saqlash
+const saveDataToFirebase = async (user) => {
+  await setDoc(doc(db, "attendess", user.id), {
+    sign_in_time: new Date().toISOString(),
+    user: user.family_name + " " + user.given_name,
+    email: user.email,
   });
 };
 
