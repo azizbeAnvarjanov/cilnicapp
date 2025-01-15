@@ -73,8 +73,10 @@ const AttendesFunstion = ({ user }) => {
     // 10 metr radiusni tekshirish
     if (distance <= 10) {
       console.log("✅ Siz ish joyidasiz!");
+      setStatus("✅ Siz ish joyidasiz!");
     } else {
       console.log("❌ Siz ish joyida emassiz!");
+      setStatus("❌ Siz ish joyida emassiz!");
     }
   };
 
