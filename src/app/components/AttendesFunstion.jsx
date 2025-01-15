@@ -44,7 +44,7 @@ const AttendesFunstion = ({ user }) => {
 
       if (distance <= 0.01) {
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
-        alert(user.family_name + " " + user.given_name);
+        alert("aaaaaaaa");
       } else {
         setMessage("Siz ish joyidan uzoqda turibsiz.");
         setStatus("");
