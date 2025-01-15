@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import saveDataToFirebase from '../firebase'
+import saveDataToFirebase from "../firebase";
 
 const AttendesFunstion = ({ user }) => {
   const [location, setLocation] = useState(null);
@@ -44,7 +44,7 @@ const AttendesFunstion = ({ user }) => {
 
       if (distance <= 0.01) {
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
-        saveDataToFirebase(isArrival, user);
+        alert(user.family_name + " " + user.given_name);
       } else {
         setMessage("Siz ish joyidan uzoqda turibsiz.");
         setStatus("");

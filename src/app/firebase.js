@@ -17,12 +17,20 @@ const storage = getStorage(app);
 
 export { db, storage };
 
-const saveDataToFirebase = async (user) => {
-  await setDoc(doc(db, "attendess", user.id), {
-    sign_in_time: new Date().toISOString(),
-    user: user.family_name + " " + user.given_name,
-    email: user.email,
-  });
+const saveDataToFirebase = async (user, setLoading) => {
+  setLoading(true);
+  try {
+    await setDoc(doc(db, "attendess", user.id), {
+      sign_in_time: new Date().toISOString(),
+      user: user.family_name + " " + user.given_name,
+      email: user.email,
+    });
+    alert("bazaga ma'lumot yozildi");
+  } catch (error) {
+    alert(error);
+  } finally {
+    setLoading(false);
+  }
 };
 
 export default saveDataToFirebase;
