@@ -1,11 +1,10 @@
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { RegisterLink, LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import Image from 'next/image';
+import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
+import Image from "next/image";
+import React from "react";
+import GetUserFS from "../components/GetUserFS";
 
-export default async function Home() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-
+const Navbar = async () => {
+  const user = await GetUserFS();
 
   return (
     <div>
@@ -56,4 +55,6 @@ export default async function Home() {
       )}
     </div>
   );
-}
+};
+
+export default Navbar;
