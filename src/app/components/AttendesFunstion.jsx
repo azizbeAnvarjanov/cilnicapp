@@ -88,14 +88,10 @@ const AttendesFunstion = ({ user }) => {
         },
         (error) => {
           console.error("Geolokatsiya xatosi:", error.message);
-          document.getElementById("statusMessage").innerText =
-            "❌ Geolokatsiya yoqilmagan!";
         }
       );
     } else {
       console.error("Geolokatsiya funksiyasi mavjud emas!");
-      document.getElementById("statusMessage").innerText =
-        "❌ Geolokatsiya funksiyasi mavjud emas!";
     }
   };
 
