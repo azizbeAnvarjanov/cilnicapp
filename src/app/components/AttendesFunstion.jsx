@@ -1,8 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import saveDataToFirebase from "../firebase";
+import GetUserFS from "./GetUserFS";
 
-const AttendesFunstion = ({ user }) => {
+const AttendesFunstion = async () => {
+  const user = await GetUserFS();
+
   const [location, setLocation] = useState(null);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
