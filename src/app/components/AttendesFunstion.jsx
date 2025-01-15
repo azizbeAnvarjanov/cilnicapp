@@ -36,6 +36,11 @@ const AttendesFunstion = ({ user }) => {
         (error) => {
           setMessage("Geolokatsiya topilmadi.");
           setLoading(false);
+        },
+        {
+          enableHighAccuracy: true, // Yuqori aniqlikni faollashtirish
+          maximumAge: 0, // Oldingi natijalarni ishlatmaslik
+          timeout: 10000, // 10 soniya kutish
         }
       );
     } else {
