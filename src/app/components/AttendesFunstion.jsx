@@ -42,7 +42,8 @@ const AttendesFunstion = ({ user }) => {
         predefinedLocation.longitude
       );
 
-      if (distance <= 0.01) {
+      if (distance <= 0.02) {
+        // 20 meters tolerance
         setStatus(isArrival ? "Siz keldingiz." : "Siz ketdingiz.");
         saveDataToFirebase(isArrival, user);
       } else {
