@@ -64,8 +64,8 @@ const AttendesFunstion = ({ user }) => {
   };
   const checkLocation = async (userLat, userLon) => {
     // Ish joyi koordinatalari (Firebase yoki boshqa bazadan o'qib olish mumkin)
-    const officeLat = 43.8041334;
-    const officeLon = 59.4457988;
+    const officeLat = 40.93016;
+    const officeLon = 71.89380;
 
     // Masofani hisoblash
     const distance = calculateDistance(userLat, userLon, officeLat, officeLon);
