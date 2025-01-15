@@ -72,6 +72,7 @@ const AttendesFunstion = ({ user }) => {
       <h1 className="text-3xl font-bold mb-4">Xodimlar Tizimi</h1>
       <h1>40.930202</h1>
       <h1>71.8937198</h1>
+      {user ? <>{userfamily_name}</> : <>user topilmadi</>}
       <div className="mb-4">
         <button
           onClick={() => {
