@@ -9,6 +9,7 @@ const AttendesFunstion = ({ user }) => {
   const [status, setStatus] = useState("");
   const [isArrival, setIsArrival] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [crrnetDistance, setCurrnetDistance] = useState(0);
 
   const addfirebase = async () => {
     try {
@@ -61,7 +62,7 @@ const AttendesFunstion = ({ user }) => {
         Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Masofa metrda
-    return distance;
+    return distance * 1000;
   };
   const checkLocation = async (userLat, userLon) => {
     // Ish joyi koordinatalari (Firebase yoki boshqa bazadan o'qib olish mumkin)
@@ -70,7 +71,7 @@ const AttendesFunstion = ({ user }) => {
 
     // Masofani hisoblash
     const distance = calculateDistance(userLat, userLon, officeLat, officeLon);
-
+    setCurrnetDistance(distance)
     // 10 metr radiusni tekshirish
     if (distance <= 10) {
       console.log("✅ Siz ish joyidasiz!");
@@ -104,7 +105,9 @@ const AttendesFunstion = ({ user }) => {
       <h1>40.930202</h1>
       <h1>71.8937198</h1>
       {user ? (
-        <>{user.family_name + " " + user.given_name}</>
+        <>
+          {user.family_name + " " + user.given_name} - {crrnetDistance}
+        </>
       ) : (
         <>user topilmadi</>
       )}
