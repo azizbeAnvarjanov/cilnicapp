@@ -17,6 +17,7 @@ const AttendesFunstion = ({ user }) => {
         user: user.family_name + " " + user.given_name,
         email: user.email,
       });
+      alert("ma'lumotlar yuklandi");
     } catch (error) {
       alert("xatolik - AttendesFunstion line 15");
     }
