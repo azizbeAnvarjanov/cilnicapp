@@ -12,8 +12,6 @@ export const config = {
   matcher: ["/dashboard"],
 };
 
-const staticIp = "84.54.72.83";
-
 export async function middleware(request) {
   try {
     // IP olish uchun tashqi xizmatni chaqirish
@@ -21,7 +19,7 @@ export async function middleware(request) {
     const userIp = ipResponse.data.ip;
 
     // Tasdiqlangan IP-manzillar ro'yxatida bor yoki yo'qligini tekshirish
-    if (userIp !== staticIp) {
+    if (!allowedIps.includes(userIp)) {
       // Agar IP ruxsat etilmagan bo'lsa, foydalanuvchini boshqa sahifaga yo'naltirish
       return NextResponse.redirect(new URL("/access-denied", request.url));
     }
