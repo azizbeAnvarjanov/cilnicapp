@@ -17,7 +17,7 @@ export default function IpPage() {
         setUserIp(currentIp);
 
         // IP mosligini tekshirish
-        if (allowedIps.includes(userIp)) {
+        if (allowedIps.includes(currentIp)) {
           setAccessGranted(true); // Kirish ruxsati berildi
         } else {
           setAccessGranted(false); // Ruxsat yo'q
