@@ -1,18 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import allowedIps from "../allowedIps"; // Tasdiqlangan IP ro'yxati
 
-export default function Home() {
-  const [userIp, setUserIp] = useState("Aniqlanmoqda...");
+export default function IpPage() {
+  const [userIp, setUserIp] = useState(null);
+  const [accessGranted, setAccessGranted] = useState(false);
 
   useEffect(() => {
     async function fetchIp() {
       try {
+        // IP manzilni olish uchun tashqi API chaqiruvi
         const response = await axios.get("https://api64.ipify.org?format=json");
-        setUserIp(response.data.ip);
+        const currentIp = response.data.ip;
+
+        setUserIp(currentIp);
+
+        // IP mosligini tekshirish
+        if (allowedIps.includes(userIp)) {
+          setAccessGranted(true); // Kirish ruxsati berildi
+        } else {
+          setAccessGranted(false); // Ruxsat yo'q
+        }
       } catch (error) {
-        setUserIp("IP manzilni olishda xatolik yuz berdi.");
-        console.error("IP olishda muammo:", error);
+        console.error("IP olishda xatolik:", error);
+        setUserIp("Aniqlab bo'lmadi");
       }
     }
 
@@ -21,9 +33,23 @@ export default function Home() {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Salom, foydalanuvchi!</h1>
-      <p>Sizning IP-manzilingiz:</p>
-      <h2 style={{ color: "blue" }}>{userIp}</h2>
+      {accessGranted ? (
+        <div>
+          <h1>Salom, foydalanuvchi!</h1>
+          <p>
+            Sizning IP-manzilingiz: <strong>{userIp}</strong>
+          </p>
+          <p>Bu sahifaga kirishingizga ruxsat berilgan!</p>
+        </div>
+      ) : (
+        <div>
+          <h1>Ruxsat yo'q</h1>
+          <p>
+            Sizning IP-manzilingiz: <strong>{userIp}</strong>
+          </p>
+          <p>Sizda ushbu sahifaga kirish huquqi yo'q.</p>
+        </div>
+      )}
     </div>
   );
 }
