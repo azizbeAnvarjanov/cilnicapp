@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains:["gravatar.com","lh3.googleusercontent.com"]
   }
+  
 };
 
 export default nextConfig;
