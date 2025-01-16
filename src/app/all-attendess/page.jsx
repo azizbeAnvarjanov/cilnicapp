@@ -18,7 +18,7 @@ const AllAttendess = () => {
   const [users, setUsers] = useState([]);
   const [attendess, setAttendess] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0] || null
+    new Date().toISOString().split("T")[0]
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
