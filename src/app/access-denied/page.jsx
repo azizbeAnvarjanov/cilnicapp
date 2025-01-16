@@ -1,4 +1,4 @@
-export default function AccessDenied() {
+function AccessDenied() {
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>Ruxsat yo'q</h1>
@@ -6,3 +6,5 @@ export default function AccessDenied() {
     </div>
   );
 }
+
+export default AccessDenied;
