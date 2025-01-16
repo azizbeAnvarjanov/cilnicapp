@@ -85,14 +85,22 @@ const MainPage = ({ user, role }) => {
         return;
       }
 
+      if (!querySnapshot.docs.length > 0) {
+        return;
+      }
+
       const docId = querySnapshot.docs[0].id;
       const docRef = doc(db, "attendess", docId);
       const data = querySnapshot.docs[0].data();
 
-      const [arriveHours, arriveMinutes, arriveSeconds] =
-        data.arrivel_time.split(":").map(Number);
-      const [departHours, departMinutes, departSeconds] =
-        time.split(":").map(Number);
+      const [
+        arriveHours,
+        arriveMinutes,
+        arriveSeconds,
+      ] = data.arrivel_time.split(":").map(Number);
+      const [departHours, departMinutes, departSeconds] = time
+        .split(":")
+        .map(Number);
 
       const arriveInSeconds =
         arriveHours * 3600 + arriveMinutes * 60 + arriveSeconds;
@@ -172,7 +180,8 @@ const MainPage = ({ user, role }) => {
       {todayStatus && (
         <div className="mb-4">
           <p>
-            <strong>Keldi:</strong> {todayStatus.arrivel_time || "Hali kelmagan"}
+            <strong>Keldi:</strong>{" "}
+            {todayStatus.arrivel_time || "Hali kelmagan"}
           </p>
           <p>
             <strong>Ketdi:</strong> {todayStatus.gone_time || "Hali ketmagan"}
