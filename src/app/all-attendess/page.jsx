@@ -1,17 +1,25 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import Link from "next/link";
 
 const AllAttendess = () => {
   const [users, setUsers] = useState([]);
   const [attendess, setAttendess] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -59,6 +67,13 @@ const AllAttendess = () => {
     fetchAttendess(selectedDate);
   }, [selectedDate]);
 
+  const formatTime = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600); // Soatlar
+    const minutes = Math.floor((totalSeconds % 3600) / 60); // Qolgan daqiqalar
+    const seconds = totalSeconds % 60; // Qolgan sekundlar
+
+    return `${hours}:${minutes}:${seconds}`;
+  };
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold mb-4">Hamma Xodimlar</h1>
@@ -81,49 +96,46 @@ const AllAttendess = () => {
         <div className="text-red-500">{error}</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table-auto border-collapse w-full">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Ism</th>
-                <th className="border px-4 py-2">Email</th>
-                <th className="border px-4 py-2">Kelgan Vaqti</th>
-                <th className="border px-4 py-2">Ketgan Vaqti</th>
-                <th className="border px-4 py-2">Ishlagan Soati</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="table-auto border-collapse w-full">
+            <TableHeader>
+              <TableRow>
+                <TableCell className="bg-gray-400">Ism</TableCell>
+                <TableCell className="bg-gray-400">Email</TableCell>
+                <TableCell className="bg-gray-400">Kelgan Vaqti</TableCell>
+                <TableCell className="bg-gray-400">Ketgan Vaqti</TableCell>
+                <TableCell className="bg-gray-400">Ishlagan Soati</TableCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {users.map((user) => {
                 const userAttendess = attendess.find(
                   (a) => a.userId === user.id
                 );
                 return (
-                  <tr key={user.id}>
-                    <td className="border px-4 py-2">{user.surname} {user.name}</td>
-                    <td className="border px-4 py-2">{user.email}</td>
-                    <td className="border px-4 py-2">
-                      {userAttendess?.arrivel_time || "-"}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {userAttendess?.gone_time || "-"}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {userAttendess?.ishlagan_soati || "-"}
-                    </td>
-                  </tr>
+                  <TableRow key={user.id}>
+                    <TableCell>
+                      <Link href={`/user/${user.id}`}>
+                        {user.surname} {user.name}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{userAttendess?.arrivel_time || "-"}</TableCell>
+                    <TableCell>{userAttendess?.gone_time || "-"}</TableCell>
+                    <TableCell>
+                      {formatTime(userAttendess?.ishlagan_soati) || "-"}
+                    </TableCell>
+                  </TableRow>
                 );
               })}
               {users.length === 0 && (
                 <tr>
-                  <td
-                    colSpan="5"
-                    className="text-center py-4 text-gray-500"
-                  >
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
                     Ma'lumotlar topilmadi.
                   </td>
                 </tr>
               )}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>
