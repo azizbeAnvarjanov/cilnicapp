@@ -12,6 +12,7 @@ import {
 
 import withIpCheck from "../hoc/withIpCheck";
 import { db } from "../firebase";
+import Link from "next/link";
 
 const MainPage = ({ user }) => {
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,8 @@ const MainPage = ({ user }) => {
         setIsArriveDisabled(true);
         return;
       }
+      // Hozirgi oyni olish
+      const currentMonth = new Date().getMonth() + 1;
 
       await addDoc(attendessRef, {
         arrivel_time: time,
@@ -46,6 +49,7 @@ const MainPage = ({ user }) => {
         date: today,
         userId: user.id,
         ishlagan_soati: null,
+        month: currentMonth,
       });
 
       alert("Bazaga kelish vaqti yozildi.");
@@ -81,7 +85,9 @@ const MainPage = ({ user }) => {
       const data = querySnapshot.docs[0].data();
 
       // Kelish vaqti bilan ketish vaqtini hisoblash
-      const [arriveHours, arriveMinutes] = data.arrivel_time.split(":").map(Number);
+      const [arriveHours, arriveMinutes] = data.arrivel_time
+        .split(":")
+        .map(Number);
       const [departHours, departMinutes] = time.split(":").map(Number);
 
       const arriveInMinutes = arriveHours * 60 + arriveMinutes;
@@ -158,6 +164,13 @@ const MainPage = ({ user }) => {
       >
         Men ketdim
       </button>
+      <Link className="text-blue-400 border p-2" href="/my-attendess">
+        Mening kunlarim
+      </Link>{" "}
+      <br />
+      <Link className="text-blue-400 border p-2" href="/all-attendess">
+        Barcha xodimlar keldi-ketdi hisobotlari
+      </Link>
     </div>
   );
 };

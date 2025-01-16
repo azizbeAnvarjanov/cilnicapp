@@ -4,6 +4,7 @@ import axios from "axios";
 import allowedIps from "../allowedIps"; // Tasdiqlangan IP ro'yxati
 
 export default function IpPage() {
+  
   const [userIp, setUserIp] = useState(null);
   const [accessGranted, setAccessGranted] = useState(false);
 
