@@ -1,6 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import {
+  addDoc,
+  collection,
+  updateDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+  getFirestore,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC45rZ1iOznBBWldJ0p5snXLEOCE2gqbEs",
@@ -17,20 +26,3 @@ const storage = getStorage(app);
 
 export { db, storage };
 
-const saveDataToFirebase = async (user, setLoading) => {
-  setLoading(true);
-  try {
-    await setDoc(doc(db, "attendess", user.id), {
-      sign_in_time: new Date().toISOString(),
-      user: user.family_name + " " + user.given_name,
-      email: user.email,
-    });
-    alert("bazaga ma'lumot yozildi");
-  } catch (error) {
-    alert(error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-export default saveDataToFirebase;

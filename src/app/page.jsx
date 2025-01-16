@@ -1,6 +1,6 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-import AttendesFunstion from "./components/AttendesFunstion";
+import MainPage from "./components/MainPage";
 import checkUserInDatabase from "./components/checkUserInDatabase";
 
 export default async function Home() {
@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <div>
-      <AttendesFunstion user={user} />
+      <MainPage user={user} />
     </div>
   );
 }
