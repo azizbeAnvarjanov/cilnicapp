@@ -108,9 +108,8 @@ const AllAttendess = () => {
             </TableHeader>
             <TableBody>
               {users.map((user) => {
-                const userAttendess = attendess.find(
-                  (a) => a.userId === user.id
-                );
+                const userAttendess =
+                  attendess.find((a) => a.userId === user.id) || {};
                 return (
                   <TableRow key={user.id}>
                     <TableCell>
@@ -119,20 +118,25 @@ const AllAttendess = () => {
                       </Link>
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
-                    <TableCell>{userAttendess?.arrivel_time || "-"}</TableCell>
-                    <TableCell>{userAttendess?.gone_time || "-"}</TableCell>
+                    <TableCell>{userAttendess.arrivel_time || "-"}</TableCell>
+                    <TableCell>{userAttendess.gone_time || "-"}</TableCell>
                     <TableCell>
-                      {formatTime(userAttendess?.ishlagan_soati) || "-"}
+                      {userAttendess.ishlagan_soati
+                        ? formatTime(userAttendess.ishlagan_soati)
+                        : "-"}
                     </TableCell>
                   </TableRow>
                 );
               })}
               {users.length === 0 && (
-                <tr>
-                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                <TableRow>
+                  <TableCell
+                    colSpan="5"
+                    className="text-center py-4 text-gray-500"
+                  >
                     Ma'lumotlar topilmadi.
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>
