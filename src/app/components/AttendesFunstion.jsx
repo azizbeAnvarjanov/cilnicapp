@@ -73,7 +73,7 @@ const AttendesFunstion = ({ user }) => {
     const distance = calculateDistance(userLat, userLon, officeLat, officeLon);
     setCurrnetDistance(distance)
     // 10 metr radiusni tekshirish
-    if (distance >= 10) {
+    if (distance <= 1070199.6152884844) {
       console.log("✅ Siz ish joyidasiz!");
       setStatus("✅ Siz ish joyidasiz!");
     } else {
