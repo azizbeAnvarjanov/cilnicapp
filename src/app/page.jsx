@@ -7,7 +7,7 @@ export default async function Home() {
   const { getUser, getRoles } = getKindeServerSession();
   const user = await getUser();
   const role = await getRoles();
-  const is_role = role[0].name
+  const is_role = role[0]?.name
 
   checkUserInDatabase(user);
 
