@@ -13,7 +13,7 @@ const Navbar = async () => {
   const user = await GetUserFS();
   const { getRoles } = getKindeServerSession();
   const roles = await getRoles();
-  const role = roles[0]?.name;
+  const role = roles ? roles[0]?.name : "";
   return (
     <div>
       {!user ? (
